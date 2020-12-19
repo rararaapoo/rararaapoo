@@ -1,0 +1,192 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+#define NAME_SIZE 32
+#define ADDRESS_SIZE 128
+#define PHONE_SIZE 14
+#define STUDENT_MAX 10
+ 
+struct student
+{
+    char strName[NAME_SIZE];
+    char strAddress[ADDRESS_SIZE];
+    char strPhoneNumber[PHONE_SIZE];
+    int number;
+    int kor;
+    int eng;
+    int math;
+    int total;
+    float avg;
+};
+enum MENU
+{
+    NONE,
+    INSERT,
+    DELETE,
+    SEARCH,
+    OUTPUT,
+    EXIT
+};
+ 
+ 
+int main()
+{
+    student studentArr[STUDENT_MAX] = {};
+    
+    int studentCount = 0;
+    int stdNumber = 1;
+ 
+    char strSearchName[NAME_SIZE] = {};
+ 
+    while (true)
+    {
+        system("cls");
+ 
+        cout << "1. 登録" << endl;
+        cout << "2. 削除" << endl;
+        cout << "3. 検索" << endl;
+        cout << "4. 出力" << endl;
+        cout << "5. 終了" << endl;
+        cout << "メニューを選択してください : ";
+        int menu;
+        cin >> menu;
+        
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(1024, '\n');
+            continue;
+        }
+        
+        if (menu == EXIT)
+            break;
+ 
+        switch (menu)
+        {
+        case INSERT:
+            system("cls");
+ 
+            cout << "========================== 登録 ==============================" << endl;
+ 
+            if (studentCount == STUDENT_MAX)
+                break;
+ 
+            cout << "名前 : ";
+            cin >> studentArr[studentCount].strName;
+ 
+            cin.ignore(1024, '\n');
+ 
+            cout << "住所 : ";
+            cin.getline(studentArr[studentCount].strAddress, ADDRESS_SIZE);
+ 
+            cout << "電話番号 : ";
+            cin.getline(studentArr[studentCount].strPhoneNumber, PHONE_SIZE);
+            
+            cout << "歴史 : ";
+            cin >> studentArr[studentCount].kor;
+ 
+ 
+            cout << "英語 : ";
+            cin >> studentArr[studentCount].eng;
+ 
+ 
+            cout << "数学 : ";
+            cin >> studentArr[studentCount].math;
+ 
+            studentArr[studentCount].total =
+                studentArr[studentCount].kor +
+                studentArr[studentCount].eng +
+                studentArr[studentCount].math;
+ 
+            studentArr[studentCount].avg =
+                studentArr[studentCount].total / 3.f;
+ 
+            studentArr[studentCount].number = stdNumber;
+ 
+            ++stdNumber;
+            ++studentCount;
+ 
+            cout << "学生登録完了" << endl;
+            break;
+        case DELETE:
+            system("cls");
+ 
+            cout << "========================== 削除 ==============================" << endl;
+ 
+            cin.ignore(1024, '\n');
+ 
+            cout << "削除する名前を入力してください : ";
+            cin.getline(strSearchName, NAME_SIZE);
+ 
+            for (int i = 0; i < studentCount; i++)
+            {
+                if (strcmp(studentArr[i].strName, strSearchName) == 0)
+                {
+                    for (int j = i; j < studentCount - 1; j++)
+                    {
+                        studentArr[i] = studentArr[i + 1];
+                    }
+ 
+                    --studentCount;
+ 
+                    cout << "学生を削除しました。" << endl;
+                    break;
+                }
+            }
+            break;
+        case SEARCH:
+            system("cls");
+ 
+            cout << "========================== 検索 ==============================" << endl;
+ 
+            cin.ignore(1024, '\n');
+ 
+            cout << "検索する名前を入力してください。: ";
+            cin.getline(strSearchName, NAME_SIZE);
+ 
+            for (int i = 0; i < studentCount; i++)
+            {
+                if (strcmp(studentArr[i].strName, strSearchName) == 0)
+                {
+                    cout << "名前 : " << studentArr[i].strName << endl;
+                    cout << "電話番号 : " << studentArr[i].strPhoneNumber << endl;
+                    cout << "住所 : " << studentArr[i].strAddress << endl;
+                    cout << "学籍番号 : " << studentArr[i].number << endl;
+                    cout << "歴史 : " << studentArr[i].kor << endl;
+                    cout << "英語 : " << studentArr[i].eng << endl;
+                    cout << "数学 : " << studentArr[i].math << endl;
+                    cout << "総点 : " << studentArr[i].total << endl;
+                    cout << "平均 : " << studentArr[i].avg << endl << endl;
+                    break;
+                }
+            }
+ 
+            break;
+        case OUTPUT:
+            system("cls");
+            cout << "========================== 出力 ==============================" << endl;
+ 
+            for (int i = 0; i < studentCount; i++)
+            {
+                cout << "名前 : " << studentArr[i].strName << endl;
+                cout << "電話番号 : " << studentArr[i].strPhoneNumber << endl;
+                cout << "住所 : " << studentArr[i].strAddress << endl;
+                cout << "学籍番号 : " << studentArr[i].number << endl;
+                cout << "歴史 : " << studentArr[i].kor << endl;
+                cout << "英語 : " << studentArr[i].eng << endl;
+                cout << "数学 : " << studentArr[i].math << endl;
+                cout << "総点 : " << studentArr[i].total << endl;
+                cout << "平均 : " << studentArr[i].avg << endl << endl;
+            }
+            break;
+        default:
+            cout << "メニューを間違って選択しました。" << endl;
+            break;
+        }
+ 
+        system("pause");
+    }
+ 
+    return 0;
+}
