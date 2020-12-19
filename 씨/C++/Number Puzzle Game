@@ -1,0 +1,119 @@
+#include <iostream>
+#include <time.h>
+#include <conio.h>
+ 
+using namespace std;
+ 
+int main()
+{
+    srand((unsigned int)time(0));
+ 
+    int number[25] = {};
+ 
+    for (int i = 0; i < 24; i++)
+    {
+        number[i] = i + 1;
+    }
+    
+    number[24] = INT_MAX;
+ 
+    int starIndex = 24;
+ 
+    int temp, idx1, idx2;
+ 
+    for (int i = 0; i < 100; i++)
+    {
+        idx1 = rand() % 24;
+        idx2 = rand() % 24;
+ 
+        temp = number[idx1];
+        number[idx1] = number[idx2];
+        number[idx2] = temp;
+    }
+ 
+    while (true)
+    {
+        system("cls");
+ 
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                if (number[i * 5 + j] == INT_MAX)
+                    cout << "*\t";
+ 
+                else
+                    cout << number[i * 5 + j] << "\t";
+            }
+ 
+            cout << endl;
+        }
+    
+        bool win = true;
+ 
+        for (int i = 0; i < 24; i++)
+        {
+            if (number[i] != i + 1)
+            {
+                win = false;
+                break;
+            }
+        }
+ 
+        if (win == true)
+        {
+            cout << "Win!" << endl;
+            break;
+        }
+ 
+        cout << "w : Top, s : Bottom, a : Left, d : Right, q : END : ";
+ 
+        char input = _getch();
+ 
+        if (input == 'q' || input == 'Q')
+            break;
+ 
+        switch (input)
+        {
+        case 'w':
+        case 'W':
+            if (starIndex > 4)
+            {
+                number[starIndex] = number[starIndex - 5];
+                number[starIndex - 5] = INT_MAX;
+                starIndex -= 5;
+            }
+            break;
+        case 's':
+        case 'S':
+            if (starIndex < 20)
+            {
+                number[starIndex] = number[starIndex + 5];
+                number[starIndex + 5] = INT_MAX;
+                starIndex += 5;
+            }
+            break;
+        case 'a':
+        case 'A':
+            if (starIndex % 5 != 0)
+            {
+                number[starIndex] = number[starIndex - 1];
+                number[starIndex - 1] = INT_MAX;
+                --starIndex;
+            }
+                break;
+        case 'd':
+        case 'D':
+            if (starIndex % 5 != 4)
+            {
+                number[starIndex] = number[starIndex + 1];
+                number[starIndex + 1] = INT_MAX;
+                ++starIndex;
+            }
+            break;
+        }
+    }
+    cout << endl << "End" << endl;
+ 
+    return 0;
+}
